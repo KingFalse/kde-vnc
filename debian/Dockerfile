@@ -6,7 +6,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
     echo keyboard-configuration keyboard-configuration/layoutcode select 'us' | debconf-set-selections && \
     echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-selections && \
     apt update && \
-    apt install -y novnc desktop-base plasma-desktop --no-install-recommends qml-module-qt-labs-platform kinfocenter systemsettings kscreen python3-pip kwin-x11 dolphin konsole tigervnc-standalone-server tigervnc-xorg-extension dbus-x11 fonts-noto-cjk fonts-noto-cjk-extra firefox-esr && \
+    apt install -y novnc desktop-base plasma-desktop --no-install-recommends qml-module-qt-labs-platform kinfocenter ark systemsettings kscreen kde-config-screenlocker python3-pip kwin-x11 dolphin konsole tigervnc-standalone-server tigervnc-xorg-extension dbus-x11 fonts-noto-cjk fonts-noto-cjk-extra firefox-esr && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     groupadd admin && \
@@ -17,7 +17,11 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
     apt-get clean && \
     mkdir /run/debian && \
     chown debian:debian /run/debian && \
-    chmod 7700 /run/debian
+    chmod 7700 /run/debian && \
+    echo "[Daemon]" >> /home/debian/.config/kscreenlockerrc && \
+    echo "AutoLock=false" >> /home/debian/.config/kscreenlockerrc && \
+    echo "LockOnResume=false" >> /home/debian/.config/kscreenlockerrc  && \
+    echo "LockOnSwitchUser=false" >> /home/debian/.config/kscreenlockerrc
 
 ENV DISPLAY=:0 \
     SCR_WIDTH=1600 \
